@@ -36,11 +36,14 @@
 
 var AnyplaceAPI = {};
 
-AnyplaceAPI.FULL_SERVER = "http://localhost:9000/anyplace";
+if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+  AnyplaceAPI.FULL_SERVER = "http://localhost:9000";
+} else {
+  AnyplaceAPI.FULL_SERVER = window.location.hostname;
+}
 
-// AnyplaceAPI.FULL_SERVER = "https://ap.cs.ucy.ac.cy/anyplace";
-
-// AnyplaceAPI.FULL_SERVER = "https://ap-dev.cs.ucy.ac.cy/anyplace";
+AnyplaceAPI.FULL_SERVER +="/anyplace";
+console.log("AnyplaceAPI: " + AnyplaceAPI.FULL_SERVER);
 
 /**
  * MAPPING API

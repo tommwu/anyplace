@@ -40,9 +40,12 @@ var AnyplaceAPI = {};
 // if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
 //   AnyplaceAPI.FULL_SERVER = "http://localhost:9000";
 // }
-AnyplaceAPI.FULL_SERVER = window.location.hostname;
-AnyplaceAPI.FULL_SERVER +="/anyplace";
-console.log("AnyplaceAPI: " + AnyplaceAPI.FULL_SERVER);
+// AnyplaceAPI.FULL_SERVER = window.location.hostname;
+// AnyplaceAPI.FULL_SERVER +="/anyplace";
+// console.log("AnyplaceAPI: " + AnyplaceAPI.FULL_SERVER);
+// AnyplaceAPI: docker-test.in.cs.ucy.ac.cy/anyplace
+
+AnyplaceAPI.FULL_SERVER ="../anyplace";
 
 /**
  * MAPPING API

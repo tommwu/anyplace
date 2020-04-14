@@ -582,7 +582,6 @@ app.factory('AnyplaceAPIService', ['$http', '$q', 'formDataObject', function ($h
     };
 
     // lsolea01
-
     apiService.deleteRadiomaps = function (json_req) {
         //alert( "make the request: " + json_req );
         return $http({
@@ -771,6 +770,7 @@ app.factory('AnyplaceAPIService', ['$http', '$q', 'formDataObject', function ($h
     };
 
 
+  /* TODO fetch from another provider
     apiService.getShipPosition = function () {
         //alert( "make the request: " + json_req );
         return $http({
@@ -783,7 +783,7 @@ app.factory('AnyplaceAPIService', ['$http', '$q', 'formDataObject', function ($h
             return data;
         });
     };
-
+  */
 
     /******************************************************
      * POIS FUNCTIONS

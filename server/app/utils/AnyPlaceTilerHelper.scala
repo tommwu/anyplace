@@ -70,6 +70,9 @@ object AnyPlaceTilerHelper {
         val dirS = AnyPlaceTilerHelper.getRootFloorPlansDirFor(buid, floor_number)
         val dir = new File(dirS)
         dir.mkdirs()
+        dir.setReadable(true, false); // set readable
+        dir.setWritable(true, false); // set writable
+        dir.setExecutable(true, false); // set executable
         if (!dir.isDirectory || !dir.canWrite() || !dir.canExecute()) {
             throw new AnyPlaceException("Floor plans directory is inaccessible!!!")
         }

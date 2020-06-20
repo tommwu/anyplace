@@ -26,16 +26,9 @@
  */
 
 var AnyplaceAPI = {};
-
-AnyplaceAPI.FULL_SERVER = "/anyplace";
-
-// AnyplaceAPI.FULL_SERVER = "https://ap.cs.ucy.ac.cy/anyplace";
-
-//AnyplaceAPI.FULL_SERVER = "https://ap-dev.cs.ucy.ac.cy/anyplace";
-
+AnyplaceAPI.FULL_SERVER ="../anyplace";
 
 /**
- *
  * MAPPING API
  */
 AnyplaceAPI.Mapping = {};
@@ -67,8 +60,8 @@ AnyplaceAPI.Mapping.FINGERPRINTS_DELETE_URL = AnyplaceAPI.FULL_SERVER + Anyplace
 AnyplaceAPI.Mapping.FINGERPRINTS_DELETE_TIME = "/position/radio/delete/time";
 AnyplaceAPI.Mapping.FINGERPRINTS_DELETE_TIME_URL = AnyplaceAPI.FULL_SERVER + AnyplaceAPI.Mapping.FINGERPRINTS_DELETE_TIME;
 
-AnyplaceAPI.Mapping.GET_APS_IDS="/position/radio/aps_ids";
-AnyplaceAPI.Mapping.GET_APS_IDS_URL=AnyplaceAPI.FULL_SERVER + AnyplaceAPI.Mapping.GET_APS_IDS;
+AnyplaceAPI.Mapping.GET_APS_IDS = "/position/radio/aps_ids";
+AnyplaceAPI.Mapping.GET_APS_IDS_URL = AnyplaceAPI.FULL_SERVER + AnyplaceAPI.Mapping.GET_APS_IDS;
 
 AnyplaceAPI.Mapping.FINGERPRINTS_TIME = "/position/radio/time";
 AnyplaceAPI.Mapping.FINGERPRINTS_TIME_URL = AnyplaceAPI.FULL_SERVER + AnyplaceAPI.Mapping.FINGERPRINTS_TIME;
@@ -92,7 +85,7 @@ AnyplaceAPI.Mapping.RADIO_HEATMAP_RSS_BY_TIME_URL_2 = AnyplaceAPI.FULL_SERVER + 
 AnyplaceAPI.Mapping.RADIO_HEATMAP_RSS_BY_TIME_3 = "/position/radio/heatmap_building_floor_timestamp_average_3";
 AnyplaceAPI.Mapping.RADIO_HEATMAP_RSS_BY_TIME_URL_3 = AnyplaceAPI.FULL_SERVER + AnyplaceAPI.Mapping.RADIO_HEATMAP_RSS_BY_TIME_3;
 
-AnyplaceAPI.Mapping.RADIO_HEATMAP_RSS_ACCES= "/position/radio/acces";
+AnyplaceAPI.Mapping.RADIO_HEATMAP_RSS_ACCES = "/position/radio/acces";
 AnyplaceAPI.Mapping.RADIO_HEATMAP_RSS_ACCES_URL = AnyplaceAPI.FULL_SERVER + AnyplaceAPI.Mapping.RADIO_HEATMAP_RSS_ACCES;
 
 AnyplaceAPI.Mapping.RADIO_HEATMAP_POI = "/mapping/radio/radio_heatmap_bbox";
@@ -125,8 +118,13 @@ AnyplaceAPI.Mapping.POISCATEGORY_ADD_URL = AnyplaceAPI.FULL_SERVER + AnyplaceAPI
 
 AnyplaceAPI.Mapping.BUILDING_UPDATE = "/mapping/building/update";
 AnyplaceAPI.Mapping.BUILDING_UPDATE_URL = AnyplaceAPI.FULL_SERVER + AnyplaceAPI.Mapping.BUILDING_UPDATE;
+
 AnyplaceAPI.Mapping.BUILDING_DELETE = "/mapping/building/delete";
 AnyplaceAPI.Mapping.BUILDING_DELETE_URL = AnyplaceAPI.FULL_SERVER + AnyplaceAPI.Mapping.BUILDING_DELETE;
+
+AnyplaceAPI.Mapping.RADIOMAP_DELETE = "/position/radio/heatmap_building_floor_delete";
+AnyplaceAPI.Mapping.RADIOMAP_DELETE_URL = AnyplaceAPI.FULL_SERVER + AnyplaceAPI.Mapping.RADIOMAP_DELETE;
+
 AnyplaceAPI.Mapping.BUILDING_ALL = "/mapping/building/all_owner";
 AnyplaceAPI.Mapping.BUILDING_ALL_URL = AnyplaceAPI.FULL_SERVER + AnyplaceAPI.Mapping.BUILDING_ALL;
 
@@ -299,7 +297,7 @@ app.factory('AnyplaceAPIService', ['$http', '$q', 'formDataObject', function ($h
         });
     };
 
-    apiService.getRadioHeatmapRSSByTime= function (json_req) {
+    apiService.getRadioHeatmapRSSByTime = function (json_req) {
         //alert( "make the request: " + json_req );
         return $http({
             method: "POST",
@@ -312,7 +310,7 @@ app.factory('AnyplaceAPIService', ['$http', '$q', 'formDataObject', function ($h
         });
     };
 
-    apiService.getRadioHeatmapRSSByTime_Tiles= function (json_req) {
+    apiService.getRadioHeatmapRSSByTime_Tiles = function (json_req) {
         //alert( "make the request: " + json_req );
         return $http({
             method: "POST",
@@ -326,7 +324,7 @@ app.factory('AnyplaceAPIService', ['$http', '$q', 'formDataObject', function ($h
     };
 
 
-    apiService.getAPs= function (json_req) {
+    apiService.getAPs = function (json_req) {
         //alert( "make the request: " + json_req );
         return $http({
             method: "POST",
@@ -340,7 +338,7 @@ app.factory('AnyplaceAPIService', ['$http', '$q', 'formDataObject', function ($h
     };
 
 
-    apiService.getAPsIds= function (json_req) {
+    apiService.getAPsIds = function (json_req) {
         //alert( "make the request: " + json_req );
         return $http({
             method: "POST",
@@ -372,7 +370,7 @@ app.factory('AnyplaceAPIService', ['$http', '$q', 'formDataObject', function ($h
         //alert( "make the request: " + json_req );
         return $http({
             method: "POST",
-            url:  AnyplaceAPI.Mapping.FINGERPRINTS_DELETE_TIME_URL,
+            url: AnyplaceAPI.Mapping.FINGERPRINTS_DELETE_TIME_URL,
             data: json_req
         }).success(function (data, status) {
             return data;
@@ -551,6 +549,21 @@ app.factory('AnyplaceAPIService', ['$http', '$q', 'formDataObject', function ($h
         return $http({
             method: "POST",
             url: AnyplaceAPI.Mapping.BUILDING_DELETE_URL,
+            data: json_req
+        }).success(function (data, status) {
+            return data;
+        }).error(function (data, status) {
+            return data;
+        });
+
+    };
+
+    // lsolea01
+    apiService.deleteRadiomaps = function (json_req) {
+        //alert( "make the request: " + json_req );
+        return $http({
+            method: "POST",
+            url: AnyplaceAPI.Mapping.RADIOMAP_DELETE_URL,
             data: json_req
         }).success(function (data, status) {
             return data;

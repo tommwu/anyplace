@@ -22,7 +22,7 @@
 
 
     <script type="text/javascript"
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCRLbtsuuKx5cdY2ydiri2r4ji3FTYdbY&libraries=places,visualization,drawing">
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCRLbtsuuKx5cdY2ydiri2r4ji3FTYdbY&libraries=places,visualization,drawing,geometry">
     </script>
 
 
@@ -250,7 +250,7 @@
                                                 // Set values for window
                                                 intWidth = intWidth || '500';
                                                 intHeight = intHeight || '400';
-                                                var strResize = (blnResize ? 'yes' : 'no');
+                                                strResize = (blnResize ? 'yes' : 'no');
 
                                                 // Set title and open popup with focus on it
                                                 var strTitle = ((typeof this.attr('title') !== 'undefined') ? this.attr('title') : 'Social Share'),
@@ -451,7 +451,7 @@
                                                     // Set values for window
                                                     intWidth = intWidth || '500';
                                                     intHeight = intHeight || '400';
-                                                    var strResize = (blnResize ? 'yes' : 'no');
+                                                    strResize = (blnResize ? 'yes' : 'no');
 
                                                     // Set title and open popup with focus on it
                                                     var strTitle = ((typeof this.attr('title') !== 'undefined') ? this.attr('title') : 'Social Share'),
@@ -818,8 +818,8 @@
                         </div>
 
                         <div class="divider-top-1">
-                                 <span title="{{ getLocalizationAccurancyModeText() }}" id="LA_1" class="A_0">
-                                    <span id="localizationAccurancy-mode">
+                                 <span title="{{ getLocalizationAccuracyModeText() }}" id="LA_1" class="A_0">
+                                    <span id="localizationAccuracy-mode">
                                        <button type="button" class="btn btn-default">
                                             <i class="fa fa-map"></i>
                                         </button>
@@ -942,11 +942,14 @@
                                     <a data-toggle="modal" data-target="#myModal_3">read more...</a>
                                 </div>
                                 <div style="margin: 10px; font-weight: bold">
-                                    <button id="LAButton" class="btn btn-success" ng-click="toggleLocalizationAccurancy()" >
-                                        {{getLocalizationAccurancyText()}}
-                                    </button>
+                                  <button id="LAButton" class="btn btn-success" ng-click="toggleLocalizationAccuracy()" >
+                                    {{getLocalizationAccuracyText()}}
+                                    <i id="LAButtonProgress" class="fa fa-circle-o-notch fa-spin hidden"></i>
+                                  </button>
+                                        <button id="LAButton1" class="btn btn-success" ng-click="deleteRadiomaps()" >
+                                            Delete Radiomap
+                                        </button>
                                 </div>
-
                             </div>
                         </div>
                         </div>

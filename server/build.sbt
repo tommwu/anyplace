@@ -1,7 +1,7 @@
 import com.typesafe.sbt.packager.MappingsHelper._
 mappings in Universal ++= directory(baseDirectory.value / "floor_plans")
 
-name := "anyplace_v3"
+name := "anyplace"
 
 version := "4.0"
 
@@ -33,14 +33,14 @@ resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )
+// unmanagedResourceDirectories in Test +=  baseDirectory ( _ /"target/web/public/test" )
 
 javaOptions += "-Dfile.encoding=UTF-8"
 
-//Required for ACCES
-libraryDependencies += "com.github.danielkorzekwa" % "bayes-scala-gp_2.11" % "0.1-SNAPSHOT"
+//Required for InfluxDB
+libraryDependencies += "io.razem" %% "scala-influxdb-client" % "0.6.2"
 
-resolvers += Resolver.sonatypeRepo("snapshots")
+// libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
 
 libraryDependencies  ++= Seq(
   // other dependencies here
@@ -62,6 +62,4 @@ resolvers ++= Seq(
   "Sonatype Releases" at "https://oss.sonatype.org/content/repositories/releases/"
 )
 
-
-lazy val `anyplace_v3` = (project in file(".")).enablePlugins(PlayScala)
-
+lazy val `anyplace` = (project in file(".")).enablePlugins(PlayScala)

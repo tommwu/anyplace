@@ -504,7 +504,7 @@ object AnyplacePosition extends play.api.mvc.Controller {
         val filePath = "radiomaps" + AnyplaceServerAPI.URL_SEPARATOR + radio_folder + AnyplaceServerAPI.URL_SEPARATOR +
           fileName
         LPLogger.info("requested: " + filePath)
-        val file = new File(filePath)
+        val file = new File(filePath).getAbsoluteFile()
         try {
           if (!file.exists() || !file.canRead()) {
             AnyResponseHelper.bad_request("Requested file does not exist or cannot be read! (" + fileName +
@@ -527,7 +527,7 @@ object AnyplacePosition extends play.api.mvc.Controller {
         AnyplaceServerAPI.URL_SEPARATOR +
         fileName
       LPLogger.info("requested: " + filePath)
-      val file = new File(filePath)
+      val file = new File(filePath).getAbsoluteFile()
       try {
         if (!file.exists() || !file.canRead()) {
           return AnyResponseHelper.bad_request("Requested file does not exist or cannot be read! (" +

@@ -65,6 +65,8 @@ import scala.collection.JavaConversions._
 import scala.collection.JavaConverters.iterableAsScalaIterableConverter
 import scala.collection.mutable.ListBuffer
 
+import java.nio.file._
+
 object AnyplaceMapping extends play.api.mvc.Controller {
 
   private val ADMIN_ID = "112997031510415584062_google"
@@ -1107,7 +1109,7 @@ object AnyplaceMapping extends play.api.mvc.Controller {
         }
         val filePath = AnyPlaceTilerHelper.getRootFloorPlansDirFor(buid)
         try {
-          val buidfile = new File(filePath)
+          val buidfile = new File(filePath).getAbsoluteFile()
           if (buidfile.exists()) HelperMethods.recDeleteDirFile(buidfile)
         } catch {
           case e: IOException => return AnyResponseHelper.internal_server_error("Server Internal Error [" + e.getMessage + "] while deleting floor plans." +
@@ -1670,7 +1672,7 @@ object AnyplaceMapping extends play.api.mvc.Controller {
         }
         val filePath = AnyPlaceTilerHelper.getFloorPlanFor(buid, floor_number)
         try {
-          val floorfile = new File(filePath)
+          val floorfile = new File(filePath).getAbsoluteFile()
           if (floorfile.exists()) HelperMethods.recDeleteDirFile(floorfile)
         } catch {
           case e: IOException => return AnyResponseHelper.internal_server_error("Server Internal Error [" + e.getMessage + "] while deleting floor plan." +
@@ -2356,7 +2358,7 @@ object AnyplaceMapping extends play.api.mvc.Controller {
         val filePath = AnyPlaceTilerHelper.getFloorPlanFor(buid, floor_number)
         LPLogger.info("requested: " + filePath)
         try {
-          val file = new File(filePath)
+          val file = new File(filePath).getAbsoluteFile()
           if (!file.exists() || !file.canRead()) return AnyResponseHelper.bad_request("Requested floor plan does not exist or cannot be read! (" +
             floor_number +
             ")")
@@ -2381,7 +2383,7 @@ object AnyplaceMapping extends play.api.mvc.Controller {
         val filePath = AnyPlaceTilerHelper.getFloorTilesZipFor(buid, floor_number)
         LPLogger.info("requested: " + filePath)
         try {
-          val file = new File(filePath)
+          val file = new File(filePath).getAbsoluteFile()
           if (!file.exists() || !file.canRead()) return AnyResponseHelper.bad_request("Requested floor plan does not exist or cannot be read! (" +
             floor_number +
             ")")
@@ -2405,7 +2407,7 @@ object AnyplaceMapping extends play.api.mvc.Controller {
         if (!Floor.checkFloorNumberFormat(floor_number)) return AnyResponseHelper.bad_request("Floor number cannot contain whitespace!")
         val filePath = AnyPlaceTilerHelper.getFloorTilesZipFor(buid, floor_number)
         LPLogger.info("requested: " + filePath)
-        val file = new File(filePath)
+        val file = new File(filePath).getAbsoluteFile()
         if (!file.exists() || !file.canRead()) return AnyResponseHelper.bad_request("Requested floor plan does not exist or cannot be read! (" +
           floor_number +
           ")")
@@ -2428,7 +2430,7 @@ object AnyplaceMapping extends play.api.mvc.Controller {
         floor_number) else AnyPlaceTilerHelper.getFloorTilesDirFor(buid, floor_number) +
         path
       try {
-        val file = new File(filePath)
+        val file = new File(filePath).getAbsoluteFile()
         //send ok message to tiler
         if (!file.exists() || !file.canRead()) return AnyResponseHelper.ok("File requested not found")
         Ok.sendFile(file)
@@ -2450,9 +2452,13 @@ object AnyplaceMapping extends play.api.mvc.Controller {
         LPLogger.info("AnyplaceMapping::serveFloorPlanBase64(): " + json.toString)
         val filePath = AnyPlaceTilerHelper.getFloorPlanFor(buid, floor_number)
         LPLogger.info("requested: " + filePath)
-        val file = new File(filePath)
+        val file = new File(filePath).getAbsoluteFile()
+        LPLogger.info("file.exists: " +file.exists())
+        LPLogger.info("file.canRead: " +file.canRead())
+        
         try {
           if (!file.exists() || !file.canRead()) return AnyResponseHelper.bad_request("Requested floor plan does not exist or cannot be read! (" +
+          // if (!Files.exists(Paths.get(filePath)) || !Files.isReadable(Paths.get(filePath))) return AnyResponseHelper.bad_request("Requested floor plan does not exist or cannot be read! (" +
             floor_number +
             ")")
           try {
@@ -2463,9 +2469,11 @@ object AnyplaceMapping extends play.api.mvc.Controller {
               case ioe: IOException => Ok(s)
             }
           } catch {
-            case e: IOException => return AnyResponseHelper.bad_request("Requested floor plan cannot be encoded in base64 properly! (" +
+            case e: IOException => {
+              LPLogger.info("Exception:"+ e.getMessage())
+              return AnyResponseHelper.bad_request("Requested floor plan cannot be encoded in base64 properly! (" +
               floor_number +
-              ")")
+              ")")}
           }
         } catch {
           case e: Exception => return AnyResponseHelper.internal_server_error("Unknown server error during floor plan delivery!")
@@ -2500,7 +2508,7 @@ object AnyplaceMapping extends play.api.mvc.Controller {
         }) {
           val filePath = AnyPlaceTilerHelper.getFloorPlanFor(buid, floors(z))
           LPLogger.info("requested: " + filePath)
-          val file = new File(filePath)
+          val file = new File(filePath).getAbsoluteFile()
           try
               if (!file.exists || !file.canRead) {
                 all_floors.add("")
@@ -2536,7 +2544,7 @@ object AnyplaceMapping extends play.api.mvc.Controller {
   }
 
   private def encodeFileToBase64Binary(fileName: String) = {
-    val file = new File(fileName)
+    val file = new File(fileName).getAbsoluteFile()
     val bytes = loadFile(file)
     val encoded = Base64.encodeBase64(bytes)
     val encodedString = new String(encoded)

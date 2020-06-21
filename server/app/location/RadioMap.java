@@ -241,7 +241,7 @@ public class RadioMap {
         double minDistance = Double.MAX_VALUE;
         String minDistanceKey = "";
         ArrayList<LogRecord> logs = new ArrayList<>();
-        if (ConstructRadioMap(new File(FINGERPRINTS_PATH + buid + "/" + floor + ".fing_new"))) {
+        if (ConstructRadioMap(new File(FINGERPRINTS_PATH + buid + "/" + floor + ".fing_new").getAbsoluteFile())) {
             for (String key : getOrderList()) {
                 String[] location = key.split(" ");
 

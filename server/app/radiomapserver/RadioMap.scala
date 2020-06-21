@@ -148,7 +148,7 @@ object RadioMap {
           val list = inFile.list()
           if (list != null) {
             for (i <- 0 until list.length) {
-              createRadioMapFromPath(new File(inFile, list(i)))
+              createRadioMapFromPath(new File(inFile, list(i)).getAbsoluteFile())
             }
           }
         } else if (inFile.canRead() && inFile.isFile) {
@@ -304,7 +304,7 @@ object RadioMap {
         val group = i * 360 / orientations
         var fos: FileOutputStream = null
         val RM = new RadioMapMean(this.isIndoor, this.defaultNaNValue)
-        if (!RM.ConstructRadioMap(new File(radiomap_mean_filename))) {
+        if (!RM.ConstructRadioMap(new File(radiomap_mean_filename).getAbsoluteFile())) {
           return false
         }
         if (!find_MIN_MAX_Values(group)) {
@@ -316,7 +316,7 @@ object RadioMap {
           return false
         }
           LPLogger.debug("RBF calculation Done!")
-        val radiomap_parameters_file = new File(radiomap_parameters_filename)
+        val radiomap_parameters_file = new File(radiomap_parameters_filename).getAbsoluteFile()
         try {
           fos = if (i == 0) new FileOutputStream(radiomap_parameters_file, false) else new FileOutputStream(radiomap_parameters_file,
             true)
@@ -465,13 +465,15 @@ object RadioMap {
       var fos_mean: FileOutputStream = null
       val out: String = null
       val orientations = 4
-      val radiomap_file = new File(radiomap_filename)
-      val radiomap_mean_file = new File(radiomap_mean_filename)
+      val radiomap_file = new File(radiomap_filename).getAbsoluteFile()
+      val radiomap_mean_file = new File(radiomap_mean_filename).getAbsoluteFile()
       if (NewRadioMap.isEmpty) {
         return false
       }
       val f = new File(radiomap_AP)
       var reader: BufferedReader = null
+      // LPLogger.info(f.getAbsolutePath())
+      // LPLogger.info(new File(radiomap_AP).getAbsoluteFile().getAbsolutePath())
       if (f.exists()) {
         try {
           var line: String = null
@@ -653,7 +655,7 @@ object RadioMap {
           "] ms")
         val dec = new DecimalFormat("###.########")
         var fos: FileOutputStream = null
-        val radiomap_rbf_weights_file = new File(radiomap_rbf_weights_filename)
+        val radiomap_rbf_weights_file = new File(radiomap_rbf_weights_filename).getAbsoluteFile()
         try {
           fos = if (x == 0) new FileOutputStream(radiomap_rbf_weights_file, false) else new FileOutputStream(radiomap_rbf_weights_file,
             true)

@@ -16,7 +16,7 @@ object AnyPlaceTilerHelper {
     val FLOOR_TILES_ZIP_NAME = "tiles_archive.zip"
 
     def getTilerScriptStart(): String = {
-        Play.application().configuration().getString("tilerRootDir")  + File.separatorChar + ANYPLACE_TILER_SCRIPT_START
+       new File("").getAbsolutePath()+File.separatorChar+  Play.application().configuration().getString("tilerRootDir")  + File.separatorChar + ANYPLACE_TILER_SCRIPT_START
     }
 
     def getRootFloorPlansDir(): String = {
@@ -71,13 +71,13 @@ object AnyPlaceTilerHelper {
 
     def storeFloorPlanToServer(buid: String, floor_number: String, file: File): File = {
         val dirS = AnyPlaceTilerHelper.getRootFloorPlansDirFor(buid, floor_number)
-        val dir = new File(dirS)
+        val dir = new File(dirS).getAbsoluteFile()
         dir.mkdirs()
         if (!dir.isDirectory || !dir.canWrite() || !dir.canExecute()) {
             throw new AnyPlaceException("Floor plans directory is inaccessible!!!")
         }
         val name = "fl" + "_" + floor_number
-        val dest_f = new File(dir, name)
+        val dest_f = new File(dir, name).getAbsoluteFile()
         var fout: FileOutputStream = null
         fout = new FileOutputStream(dest_f)
         Files.copy(file.toPath(), fout)
@@ -95,9 +95,9 @@ object AnyPlaceTilerHelper {
               imageFile.toString +
               "]")
         }
-        val pb = new ProcessBuilder(getTilerScriptStart, imageFile.getAbsolutePath.toString, lat,
+        val pb = new ProcessBuilder( getTilerScriptStart, imageFile.getAbsolutePath.toString, lat,
             lng, "-DISLOG")
-        val log = new File(imageDir, "anyplace_tiler_" + imageFile.getName + ".log")
+        val log = new File(imageDir, "anyplace_tiler_" + imageFile.getName + ".log").getAbsoluteFile()
         pb.redirectErrorStream(true)
         pb.redirectOutput(ProcessBuilder.Redirect.appendTo(log))
         try {
@@ -148,7 +148,7 @@ object AnyPlaceTilerHelper {
         }
         val pb = new ProcessBuilder(getTilerScriptStart, imageFile.getAbsolutePath.toString, lat,
             lng,"-DISLOG",zoom)
-        val log = new File(imageDir, "anyplace_tiler_" + imageFile.getName + ".log")
+        val log = new File(imageDir, "anyplace_tiler_" + imageFile.getName + ".log").getAbsoluteFile()
         pb.redirectErrorStream(true)
         pb.redirectOutput(ProcessBuilder.Redirect.appendTo(log))
         try {

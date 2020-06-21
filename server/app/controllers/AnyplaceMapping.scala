@@ -892,7 +892,7 @@ object AnyplaceMapping extends play.api.mvc.Controller {
         */
 
         val rmapFile = new File(radioMapsFrozenDir + AnyplaceServerAPI.URL_SEPARATOR + buid + AnyplaceServerAPI.URL_SEPARATOR +
-          floor_number+AnyplaceServerAPI.URL_SEPARATOR+ "indoor-radiomap-mean.txt")
+          floor_number+AnyplaceServerAPI.URL_SEPARATOR+ "indoor-radiomap-mean.txt").getAbsoluteFile()
 
         if(!rmapFile.exists()){
           //Regenerate the radiomap files if not exist
@@ -1719,7 +1719,7 @@ object AnyplaceMapping extends play.api.mvc.Controller {
           val floor_number=(json \ "floor").as[String]
           val file_path=new File(
               Play.application().configuration().getString("crlbsDir") +
-              File.separatorChar+buid+File.separator+"fl_"+floor_number+".txt")
+              File.separatorChar+buid+File.separator+"fl_"+floor_number+".txt").getAbsoluteFile()
          if (file_path.exists()){
               if(file_path.delete){
                 return AnyResponseHelper.ok("Deleted floor :" + floor_number)
@@ -1767,7 +1767,7 @@ object AnyplaceMapping extends play.api.mvc.Controller {
         }
         val filePath = AnyPlaceTilerHelper.getFloorPlanFor(buid, floor_number)
         try {
-          val floorfile = new File(filePath)
+          val floorfile = new File(filePath).getAbsoluteFile()
           /*
            * DELETE FLOOR : BuxFix
            * Fixing floor plan files and directory removal during floor delete
@@ -2457,7 +2457,7 @@ object AnyplaceMapping extends play.api.mvc.Controller {
         val filePath = AnyPlaceTilerHelper.getFloorPlanFor(buid, floor_number)
         LPLogger.info("requested: " + filePath)
         try {
-          val file = new File(filePath)
+          val file = new File(filePath).getAbsoluteFile()
           // LPLogger.debug("filePath " + file.getAbsolutePath.toString)
           if (!file.exists() || !file.canRead()) return AnyResponseHelper.bad_request("Requested floor plan does not exist or cannot be read! (" +
             floor_number +
@@ -2483,7 +2483,7 @@ object AnyplaceMapping extends play.api.mvc.Controller {
         val filePath = AnyPlaceTilerHelper.getFloorTilesZipFor(buid, floor_number)
         LPLogger.info("requested: " + filePath)
         try {
-          val file = new File(filePath)
+          val file = new File(filePath).getAbsoluteFile()
           if (!file.exists() || !file.canRead()) return AnyResponseHelper.bad_request("Requested floor plan does not exist or cannot be read! (" +
             floor_number +
             ")")
@@ -2507,7 +2507,7 @@ object AnyplaceMapping extends play.api.mvc.Controller {
         if (!Floor.checkFloorNumberFormat(floor_number)) return AnyResponseHelper.bad_request("Floor number cannot contain whitespace!")
         val filePath = AnyPlaceTilerHelper.getFloorTilesZipFor(buid, floor_number)
         LPLogger.info("requested: " + filePath)
-        val file = new File(filePath)
+        val file = new File(filePath).getAbsoluteFile()
         if (!file.exists() || !file.canRead()) return AnyResponseHelper.bad_request("Requested floor plan does not exist or cannot be read! (" +
           floor_number +
           ")")
@@ -2530,7 +2530,7 @@ object AnyplaceMapping extends play.api.mvc.Controller {
         floor_number) else AnyPlaceTilerHelper.getFloorTilesDirFor(buid, floor_number) +
         path
       try {
-        val file = new File(filePath)
+        val file = new File(filePath).getAbsoluteFile()
         //send ok message to tiler
         if (!file.exists() || !file.canRead()) return AnyResponseHelper.ok("File requested not found")
         Ok.sendFile(file)
@@ -2552,7 +2552,7 @@ object AnyplaceMapping extends play.api.mvc.Controller {
         LPLogger.info("AnyplaceMapping::serveFloorPlanBase64(): " + stripJson(json))
         val filePath = AnyPlaceTilerHelper.getFloorPlanFor(buid, floor_number)
         LPLogger.info("requested: " + filePath)
-        val file = new File(filePath)
+        val file = new File(filePath).getAbsoluteFile()
         try {
           if (!file.exists() || !file.canRead()) return AnyResponseHelper.bad_request("Requested floor plan does not exist or cannot be read! (" +
             floor_number +
@@ -2602,7 +2602,7 @@ object AnyplaceMapping extends play.api.mvc.Controller {
         }) {
           val filePath = AnyPlaceTilerHelper.getFloorPlanFor(buid, floors(z))
           LPLogger.info("requested: " + filePath)
-          val file = new File(filePath)
+          val file = new File(filePath).getAbsoluteFile()
           try
               if (!file.exists || !file.canRead) {
                 all_floors.add("")
@@ -2638,7 +2638,7 @@ object AnyplaceMapping extends play.api.mvc.Controller {
   }
 
   private def encodeFileToBase64Binary(fileName: String) = {
-    val file = new File(fileName)
+    val file = new File(fileName).getAbsoluteFile()
     val bytes = loadFile(file)
     val encoded = Base64.encodeBase64(bytes)
     val encodedString = new String(encoded)
@@ -2917,7 +2917,7 @@ object AnyplaceMapping extends play.api.mvc.Controller {
                 if(requestExpired) {
                     // TODO if ACCES generation happens asynchronously we can skip the extra step
                     // This is just to show a warning message to the user.
-                    val file_lock =new File(crlb_filename_lock)
+                    val file_lock =new File(crlb_filename_lock).getAbsoluteFile()
                     file_lock.delete()
                     msg = "Generating ACCES has previously failed. Please retry."
                 } else {
@@ -2973,7 +2973,7 @@ object AnyplaceMapping extends play.api.mvc.Controller {
     
     val folder=new File(
         Play.application().configuration().getString("crlbsDir") +
-    File.separatorChar+buid)
+    File.separatorChar+buid).getAbsoluteFile()
     if (!folder.exists()) {
         LPLogger.debug("getAccesMap: mkdir: " + folder.getCanonicalPath)
         folder.mkdirs()
@@ -2986,8 +2986,8 @@ object AnyplaceMapping extends play.api.mvc.Controller {
     val crlb_filename_lock=crlb_filename+".lock"
     LPLogger.debug("getAccesMap:" + crlb_filename)
 
-    val file_path=new File(crlb_filename)
-    val file_lock =new File(crlb_filename_lock)
+    val file_path=new File(crlb_filename).getAbsoluteFile()
+    val file_lock =new File(crlb_filename_lock).getAbsoluteFile()
 
       if (file_lock.exists()) {
         val lockInstant =
@@ -3116,20 +3116,20 @@ object AnyplaceMapping extends play.api.mvc.Controller {
   private def getRadioMapMeanByBuildingFloor(buid: String, floor_number: String): Option[RadioMapMean] = {
     //FeatureAdd : Configuring location for server generated files
     val radioMapsFrozenDir = Play.application().configuration().getString("radioMapFrozenDir")
-    val rmapDir = new File(radioMapsFrozenDir + File.separatorChar + buid + File.separatorChar + floor_number)
-    val meanFile = new File(rmapDir.toString + File.separatorChar + "indoor-radiomap-mean.txt")
+    val rmapDir = new File(radioMapsFrozenDir + File.separatorChar + buid + File.separatorChar + floor_number).getAbsoluteFile()
+    val meanFile = new File(rmapDir.toString + File.separatorChar + "indoor-radiomap-mean.txt").getAbsoluteFile()
     if (rmapDir.exists() && meanFile.exists()) {
       val folder = rmapDir.toString
       val radiomap_mean_filename = new File(folder + File.separatorChar + "indoor-radiomap-mean.txt").getAbsolutePath
       val rm_mean = new RadioMapMean(isIndoor = true, defaultNaNValue = -110)
-      rm_mean.ConstructRadioMap(inFile = new File(radiomap_mean_filename))
+      rm_mean.ConstructRadioMap(inFile = new File(radiomap_mean_filename).getAbsoluteFile())
       return Option[RadioMapMean](rm_mean)
     }
 
     if (!rmapDir.mkdirs() && !rmapDir.exists()) {
       throw new IOException("Could not create %s".format(rmapDir.toString))
     }
-    val radio = new File(rmapDir.getAbsolutePath + File.separatorChar + "rss-log")
+    val radio = new File(rmapDir.getAbsolutePath + File.separatorChar + "rss-log").getAbsoluteFile()
     var fout: FileOutputStream = null
     fout = new FileOutputStream(radio)
     LPLogger.debug(radio.toPath().getFileName.toString)
@@ -3149,13 +3149,13 @@ object AnyplaceMapping extends play.api.mvc.Controller {
     var radiomap_mean_filename = radiomap_filename.replace(".txt", "-mean.txt")
     var radiomap_rbf_weights_filename = radiomap_filename.replace(".txt", "-weights.txt")
     var radiomap_parameters_filename = radiomap_filename.replace(".txt", "-parameters.txt")
-    val rm = new RadioMap(new File(folder), radiomap_filename, "", -110)
+    val rm = new RadioMap(new File(folder).getAbsoluteFile(), radiomap_filename, "", -110)
     if (!rm.createRadioMap()) {
       LPLogger.error("Error while creating Radio Map on-the-fly!")
       throw new Exception("Error while creating Radio Map on-the-fly!")
     }
     val rm_mean = new RadioMapMean(isIndoor = true, defaultNaNValue = -110)
-    rm_mean.ConstructRadioMap(inFile = new File(radiomap_mean_filename))
+    rm_mean.ConstructRadioMap(inFile = new File(radiomap_mean_filename).getAbsoluteFile())
     return Option[RadioMapMean](rm_mean)
   }
 

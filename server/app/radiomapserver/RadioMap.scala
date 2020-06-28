@@ -45,11 +45,14 @@ import utils.LPLogger
 
 //remove if not needed
 import scala.collection.JavaConversions._
+import java.util.logging.Logger
 
 
 object RadioMap {
 
   def authenticateRSSlogFileAndReturnBuildingsFloors(inFile: File): HashMap[String, LinkedList[String]] = {
+    
+    LPLogger.info("Auth RSS :"+inFile.getAbsolutePath())
     var line_num = 0
     var reader: BufferedReader = null
     val buildingsFloors = new HashMap[String, LinkedList[String]]()
@@ -63,6 +66,7 @@ object RadioMap {
       }) {
         line_num += 1
         if (!(line.startsWith("#") || line.trim().isEmpty)) {
+
           line = line.replace(", ", " ")
           val temp = line.split(" ")
           if (temp.length != 8) {
@@ -72,7 +76,7 @@ object RadioMap {
           java.lang.Float.parseFloat(temp(2))
           java.lang.Float.parseFloat(temp(3))
           if (!temp(4).matches("[a-fA-F0-9]{2}:[a-fA-F0-9]{2}:[a-fA-F0-9]{2}:[a-fA-F0-9]{2}:[a-fA-F0-9]{2}:[a-fA-F0-9]{2}")) {
-            throw new Exception("Line " + line_num + " MAC Address is not valid.")
+            throw new Exception("Line " + line_num +  ":"+ line +" MAC Address is not valid.")
           }
           java.lang.Integer.parseInt(temp(5))
           java.lang.Integer.parseInt(temp(6))
@@ -152,6 +156,7 @@ object RadioMap {
             }
           }
         } else if (inFile.canRead() && inFile.isFile) {
+          if(inFile.getName()=="rss-log")
           parseLogFileToRadioMap(inFile)
         }
       }
@@ -249,6 +254,7 @@ object RadioMap {
 
 
     def authenticateRSSlogFile(inFile: File): Boolean = {
+      LPLogger.info("authenticateRSSlogFile:"+inFile.getAbsolutePath())
       var line_num = 0
       var reader: BufferedReader = null
       try {
@@ -259,10 +265,12 @@ object RadioMap {
           line = reader.readLine
           line != null
         }) {
+          // LPLogger.info("record Rss log file:"+line)
 
           line_num += 1
           // Check X, Y or Latitude, Longitude
           if (!(line.startsWith("#") || line.trim().isEmpty)) {
+            
             // Remove commas
             line = line.replace(", ", " ")
             val temp = line.split(" ")
@@ -270,7 +278,7 @@ object RadioMap {
             java.lang.Float.parseFloat(temp(2))
             java.lang.Float.parseFloat(temp(3))
             if (!temp(4).matches("[a-fA-F0-9]{2}:[a-fA-F0-9]{2}:[a-fA-F0-9]{2}:[a-fA-F0-9]{2}:[a-fA-F0-9]{2}:[a-fA-F0-9]{2}")) {
-              throw new Exception("Line " + line_num + " MAC Address is not valid.")
+              throw new Exception("Line " + line_num +  ":"+ line +" MAC Address is not valid.")
             }
             java.lang.Integer.parseInt(temp(5))
             java.lang.Integer.parseInt(temp(6))
@@ -316,7 +324,7 @@ object RadioMap {
           return false
         }
           LPLogger.debug("RBF calculation Done!")
-        val radiomap_parameters_file = new File(radiomap_parameters_filename).getAbsoluteFile()
+        val radiomap_parameters_file = new File(radiomap_parameters_filename)
         try {
           fos = if (i == 0) new FileOutputStream(radiomap_parameters_file, false) else new FileOutputStream(radiomap_parameters_file,
             true)
@@ -465,8 +473,8 @@ object RadioMap {
       var fos_mean: FileOutputStream = null
       val out: String = null
       val orientations = 4
-      val radiomap_file = new File(radiomap_filename).getAbsoluteFile()
-      val radiomap_mean_file = new File(radiomap_mean_filename).getAbsoluteFile()
+      val radiomap_file = new File(radiomap_filename)
+      val radiomap_mean_file = new File(radiomap_mean_filename)
       if (NewRadioMap.isEmpty) {
         return false
       }

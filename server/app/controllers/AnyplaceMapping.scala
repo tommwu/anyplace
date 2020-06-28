@@ -3122,14 +3122,14 @@ object AnyplaceMapping extends play.api.mvc.Controller {
       val folder = rmapDir.toString
       val radiomap_mean_filename = new File(folder + File.separatorChar + "indoor-radiomap-mean.txt").getAbsolutePath
       val rm_mean = new RadioMapMean(isIndoor = true, defaultNaNValue = -110)
-      rm_mean.ConstructRadioMap(inFile = new File(radiomap_mean_filename).getAbsoluteFile())
+      rm_mean.ConstructRadioMap(inFile = new File(radiomap_mean_filename))
       return Option[RadioMapMean](rm_mean)
     }
 
     if (!rmapDir.mkdirs() && !rmapDir.exists()) {
       throw new IOException("Could not create %s".format(rmapDir.toString))
     }
-    val radio = new File(rmapDir.getAbsolutePath + File.separatorChar + "rss-log").getAbsoluteFile()
+    val radio = new File(rmapDir.getAbsolutePath + File.separatorChar + "rss-log")
     var fout: FileOutputStream = null
     fout = new FileOutputStream(radio)
     LPLogger.debug(radio.toPath().getFileName.toString)

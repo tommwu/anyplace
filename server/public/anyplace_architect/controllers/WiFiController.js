@@ -2080,7 +2080,7 @@ app.controller('WiFiController', ['$cookieStore','$scope', 'AnyplaceService', 'G
 
                                         var imgType = _FINGERPRINT_IMAGE;
 
-                                        var size = new google.maps.Size(21, 32);
+                                        var size = new google.maps.Size(16, 16);
 
                                         i = fingerPrintsData.length;
 
@@ -2184,7 +2184,7 @@ app.controller('WiFiController', ['$cookieStore','$scope', 'AnyplaceService', 'G
 
                                 var imgType = _FINGERPRINT_IMAGE;
 
-                                var size = new google.maps.Size(21, 32);
+                                var size = new google.maps.Size(16, 16);
 
                                 i = fingerPrintsData.length;
 
@@ -2288,7 +2288,7 @@ app.controller('WiFiController', ['$cookieStore','$scope', 'AnyplaceService', 'G
 
                 var imgType = _FINGERPRINT_IMAGE;
 
-                var size = new google.maps.Size(21, 32);
+                var size = new google.maps.Size(16, 16);
 
                 i = fingerPrintsData.length;
 

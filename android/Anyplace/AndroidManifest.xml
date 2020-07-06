@@ -167,7 +167,7 @@
        
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="insert_api_key" />
+            android:value="AIzaSyBCRLbtsuuKx5cdY2ydiri2r4ji3FTYdbY" />
     </application>
 
 </manifest>
